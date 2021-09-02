@@ -1,13 +1,19 @@
 import React, {
     createContext,
     Fragment,
+    lazy,
+    Suspense,
     useEffect,
-    useReducer
+    useReducer,
+    useState,
 } from "react";
 
 import {
-    BrowserRouter as Router,
+    BrowserRouter as Router, Redirect, Route, Switch,
 } from "react-router-dom";
+
+// Components
+import Loader from "./components/Loader";
 
 // Context
 import { UIReducer, initialUIState } from "./context/UIContext";
@@ -24,10 +30,16 @@ import { ThemeProvider } from "@material-ui/core";
 export const UIContext = createContext();
 export const UserContext = createContext();
 
+// Views
+const Home = lazy(() => import("./screens/Home"));
+const Auth = lazy(() => import("./screens/Auth"));
+
 function App() {
 
     const [uiState, uiDispatch] = useReducer(UIReducer, initialUIState);
     const [userState, userDispatch] = useReducer(UserReducer, initialUserState);
+
+    const [loading, setLoading] = useState(false);
 
     const theme = useTheme();
     const mdScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -62,7 +74,19 @@ function App() {
                             <div style={{
                                 backgroundColor: !uiState.darkMode ? "rgb(240, 242, 245)" : "rgb(24, 25, 26)"
                             }}>
-                                <div>asdfasdf</div>
+                                <Suspense fallback={ <Loader /> } >
+                                    { loading ? (
+                                        <Loader />
+                                    ) : (
+                                        <Switch>
+                                            <Route
+                                                exact
+                                                path="/"
+                                                render={ (props) => !userState.isLoggedIn ? (<Auth />) : (<Redirect to="/home" />) }
+                                            />
+                                        </Switch>
+                                    ) }
+                                </Suspense>
                             </div>
                         </Router>
                     </Fragment>
