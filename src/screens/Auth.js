@@ -12,6 +12,7 @@ import {
 import { UIContext } from "../App";
 
 import RecentAccounts from "../components/Auth/RecentAccount/RecentAccounts";
+import SignupForm from "../components/Auth/SignupForm";
 
 const Auth = () => {
     const [toggleLoginForm, setToggleLoginForm] = useState(true);
@@ -73,7 +74,7 @@ const Auth = () => {
                                 flexDirection: "column"
                             }}
                         >
-                            { toggleLoginForm ? <LoginForm /> : null }
+                            { toggleLoginForm ? <LoginForm /> : <SignupForm /> }
 
                             <Divider />
                             <Button
