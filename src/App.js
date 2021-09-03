@@ -14,6 +14,7 @@ import {
 
 // Components
 import Loader from "./components/Loader";
+import Navbar from "./components/Navbar/Navbar";
 
 // Context
 import { UIReducer, initialUIState } from "./context/UIContext";
@@ -26,6 +27,7 @@ import {
 } from "@material-ui/core";
 
 import { ThemeProvider } from "@material-ui/core";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 export const UIContext = createContext();
 export const UserContext = createContext();
@@ -70,7 +72,7 @@ function App() {
                 <ThemeProvider theme={ Theme }>
                     <Fragment>
                         <Router>
-                            { userState.isLoggedIn && <div>This is navbar</div> }
+                            { userState.isLoggedIn && <Navbar /> }
                             <div style={{
                                 backgroundColor: !uiState.darkMode ? "rgb(240, 242, 245)" : "rgb(24, 25, 26)"
                             }}>
@@ -83,6 +85,12 @@ function App() {
                                                 exact
                                                 path="/"
                                                 render={ (props) => !userState.isLoggedIn ? (<Auth />) : (<Redirect to="/home" />) }
+                                            />
+                                            <ProtectedRoute
+                                                exact
+                                                path="/home"
+                                                component={ Home }
+                                                isLoggedIn={ userState.isLoggedIn }
                                             />
                                         </Switch>
                                     ) }
