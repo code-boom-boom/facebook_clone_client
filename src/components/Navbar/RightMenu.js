@@ -1,13 +1,23 @@
-import React, {Fragment, useContext} from "react";
+import React, { Fragment, useContext } from "react";
 
 import useStyles from "./styles";
-import {UIContext, UserContext} from "../../App";
-import {Avatar, Chip, useMediaQuery, useTheme} from "@material-ui/core";
+import { UIContext, UserContext } from "../../App";
+import {
+    Avatar,
+    Badge,
+    Chip,
+    IconButton,
+    useMediaQuery,
+    useTheme
+} from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBell} from "@fortawesome/free-regular-svg-icons";
-import {NavLink} from "react-router-dom";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { NavLink } from "react-router-dom";
 import AvatarText from "../UI/AvatarText";
 import CreatePostMenu from "./CreatePostMenu";
+import { faFacebookMessenger } from "@fortawesome/free-brands-svg-icons";
+import NotificationMenu from "../NotificationMenu";
+import ProfileMenu from "./ProfileMenu";
 
 function RightMenu() {
     const classes = useStyles();
@@ -42,6 +52,25 @@ function RightMenu() {
             ) }
 
             <CreatePostMenu />
+
+            <IconButton
+                component={ NavLink }
+                activeStyle={{ color: "rgb(1, 133, 243)" }}
+                to="/messenger"
+                style={{
+                    marginLeft: xsScreen ? "4px" : "8px",
+                    color: !uiState.darkMode ? "black" : null,
+                    backgroundColor: !uiState.darkMode ? "#f0f2f5" : null
+                }}
+            >
+                <FontAwesomeIcon icon={ faFacebookMessenger } size={ xsScreen ? "xs" : "sm" } />
+            </IconButton>
+
+            <NotificationMenu>
+                <Badge max={ 5 } badgeContent={ uiState.notifications.length || "0" } { ...defaultPropsNotif } />
+            </NotificationMenu>
+
+            <ProfileMenu />
         </Fragment>
     );
 }

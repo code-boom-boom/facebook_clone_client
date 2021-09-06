@@ -26,3 +26,51 @@ export const fetchCurrentUser = async () => {
         }
     }
 }
+
+export const loginUser = async (userData, loading, setLoading) => {
+    try {
+        setLoading(true);
+        const { data } = await axios.post(`${ url }/api/auth/login`, userData);
+
+        setLoading(false);
+        if (data) {
+            return {
+                data
+            };
+        }
+    } catch (err) {
+        setLoading(false);
+        if (err && err.response) {
+            return {
+                error: err.response.data.error
+            };
+        }
+    }
+}
+
+export const logoutUser = async () => {
+    let token = localStorage.token && JSON.parse(localStorage.token);
+
+    try {
+        const { data } = await axios.get(`${ url }/api/auth/logout`, {
+            headers: {
+                Authorization: `Bearer ${ token }`
+            }
+        });
+        if (data) {
+            return {
+                data
+            };
+        }
+    } catch (err) {
+        if (localStorage.token) {
+            localStorage.removeItem("token");
+        }
+        if (err && err.response) {
+            return {
+                status: err.response.status,
+                error: err.response.data.error
+            };
+        }
+    }
+}
