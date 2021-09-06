@@ -1,10 +1,17 @@
-import React, {Fragment, useContext} from "react";
-import {UIContext} from "../../App";
+import React, { Fragment, useContext } from "react";
+import { UIContext } from "../../App";
 import useStyles from "./styles";
 import MiddleMenu from "./MiddleMenu";
-import {AppBar, IconButton, Toolbar, Tooltip, useMediaQuery, useTheme} from "@material-ui/core";
+import {
+    AppBar,
+    IconButton,
+    Toolbar,
+    Tooltip,
+    useMediaQuery,
+    useTheme
+} from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faFacebook} from "@fortawesome/free-brands-svg-icons";
+import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import SearchFriends from "../Friends/SearchFriends";
 import { Menu as MenuIcon } from "@material-ui/icons";
 import RightMenu from "./RightMenu";

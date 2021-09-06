@@ -28,6 +28,7 @@ import {
 
 import { ThemeProvider } from "@material-ui/core";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import BottomNav from "./components/Navbar/BottomNav";
 
 export const UIContext = createContext();
 export const UserContext = createContext();
@@ -96,6 +97,13 @@ function App() {
                                     ) }
                                 </Suspense>
                             </div>
+
+                            // TODO: Message Nav Bar
+
+                            { !uiState.mdScreen && userState.isLoggedIn ? (
+                                <BottomNav />
+                            ) : null}
+
                         </Router>
                     </Fragment>
                 </ThemeProvider>
