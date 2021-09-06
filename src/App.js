@@ -21,7 +21,7 @@ import { UIReducer, initialUIState } from "./context/UIContext";
 import { UserReducer, initialUserState } from "./context/UserContext";
 
 import {
-    createTheme,
+    createTheme, Snackbar,
     useMediaQuery,
     useTheme
 } from "@material-ui/core";
@@ -29,6 +29,7 @@ import {
 import { ThemeProvider } from "@material-ui/core";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import BottomNav from "./components/Navbar/BottomNav";
+import {Alert} from "@material-ui/lab";
 
 export const UIContext = createContext();
 export const UserContext = createContext();
@@ -98,7 +99,22 @@ function App() {
                                 </Suspense>
                             </div>
 
-                            // TODO: Message Nav Bar
+                            { uiState.message && (
+                                <Snackbar
+                                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                                    open={ uiState.message.display }
+                                    autoHideDuration={ 6000 }
+                                    onClose={ () => uiDispatch({ type: "SET_MESSAGE", payload: null }) }
+                                    style={{ color: "#fff", marginTop: 60 }}
+                                >
+                                    <Alert
+                                        onClose={ () => uiDispatch({ type: "SET_MESSAGE", payload: null }) }
+                                        severity={ uiState.message.color }
+                                    >
+                                        { uiState.message.color }
+                                    </Alert>
+                                </Snackbar>
+                            ) }
 
                             { !uiState.mdScreen && userState.isLoggedIn ? (
                                 <BottomNav />
